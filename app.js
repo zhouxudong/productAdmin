@@ -6,7 +6,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require("express-session");
-
+var compression = require("compression")
 var routes = require('./routes/index');
 var api = require("./routes/api")
 
@@ -27,6 +27,7 @@ app.use(session({
     maxAge: 3600000
   }
 }));
+app.use(compression());
 
 app.use(express.static(path.join(__dirname, 'webroot')));
 app.use("/uploads",express.static(path.join(__dirname, 'uploads')));
