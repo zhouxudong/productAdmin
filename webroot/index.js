@@ -3,17 +3,16 @@ import { render }from 'react-dom'
 import { Router, Route, browserHistory } from 'react-router'
 
 import Main from './common/Main'
-import AppManagerRoute from './routes/Appmanager'
-import APIManagerRoute from './routes/ApiManager'
-import RenRenGORoute from './routes/RenRenGO'
+//import AppManagerRoute from './routes/Appmanager'
+//import RenRenGORoute from './routes/RenRenGO'
 import {ProductManagerRoute, CategoryManagerRoute, StockManagerRoute }from './routes/ProductManager'
 
 const routes = {
     path: "/",
     component: Main,
     childRoutes: [
-        AppManagerRoute,
-        RenRenGORoute,
+        //AppManagerRoute,
+        //RenRenGORoute,
         ProductManagerRoute,
         CategoryManagerRoute,
         StockManagerRoute
