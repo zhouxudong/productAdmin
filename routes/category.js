@@ -40,7 +40,7 @@ router.get("/add", (req, res, next) => {
                 values ("${name}", "${name_en}", "${name_es}", ${parent_id}, "${ctime}")`
 
     conn(sql, rows => {
-        res.json({response_data: "ok"});
+        res.json({response_data: rows});
     })
 })
 router.get("/edit", (req, res, next) => {
