@@ -23,9 +23,6 @@ const Main = React.createClass({
                 </div>
                 <div id="page-wrapper" className="gray-bg">
                     <div>
-                        <TopNavBar/>
-                    </div>
-                    <div>
                         {this.props.children}
                     </div>
                     <div className="footer">

@@ -2,6 +2,7 @@ import React from 'react'
 import {Link} from 'react-router'
 import RouterMap from '../conf/RouterMap'
 import NavMap from '../conf/NavMap'
+import MiniSidebar from './MiniSidebar'
 
 
 const Navigation = React.createClass({
@@ -25,6 +26,9 @@ const Navigation = React.createClass({
             <nav id="left_nav" className="navbar-default navbar-static-side" role="navigation">
                 <div className="sidebar-collapse">
                     <ul className="nav" id="side-menu">
+                        <li>
+                            <MiniSidebar />
+                        </li>
                         <li className="nav-header">
                             <div className="dropdown profile-element">
                                 <a className="dropdown-toggle">

@@ -23,9 +23,9 @@ const MiniSidebar = React.createClass({
     },
     render(){
         return (
-            <span>
-                <a onClick={this.minimalize} className="navbar-minimalize minimalize-styl-2 btn btn-primary "><i className="fa fa-bars"></i></a>
-            </span>
+            <div className="minimalize" onClick={this.minimalize} style={{width:"100%",height: "30px",textAlign:'center'}}>
+                <a className="navbar-minimalize"><i className="fa fa-bars"></i></a>
+            </div>
         )
     }
 })
