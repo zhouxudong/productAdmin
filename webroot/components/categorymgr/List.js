@@ -1,5 +1,5 @@
 import React from 'react'
-import {render} from 'react-dom'
+import {render, unmountComponentAtNode} from 'react-dom'
 import CategoryEdit from './CategoryEdit'
 import {BreadCrumb, IBoxTool, TreeNode} from '../../common/Birdie'
 import Ztil from '../../statics/js/public'
@@ -41,16 +41,21 @@ const CateList = React.createClass({
             </div>
         )
     },
-    delCategory(id){
-        $.ajax({
-            url:API.category_del,
-            data: {id: id},
-            success: function(data){
-                if(data.response_data){
-                    this.ajaxAllCategory();
-                }
-            }.bind(this)
-        })
+    delCategory(id,$parentli){
+        if(id){
+            $.ajax({
+                url:API.category_del,
+                data: {id: id},
+                success: function(data){
+                    if(data.response_data){
+                        //this.ajaxAllCategory();
+                        $parentli.remove();
+                    }
+                }.bind(this)
+            })
+        }else{
+            $parentli.remove();
+        }
     },
     showSubsNode(parent_id,callback){
         $.ajax({
@@ -115,8 +120,10 @@ const CateList = React.createClass({
         var traslateData = {
             parent_id: parent_id,
             id: id,
-            ajaxAllCategory: this.ajaxAllCategory
+            ajaxAllCategory: this.ajaxAllCategory,
+            ajaxCategoryByPid: this.ajaxCategoryByPid
         }
+        unmountComponentAtNode(catedit_wraper);
         render(<CategoryEdit {...traslateData} />,catedit_wraper);
         Ztil.runAnim(catedit_wraper,"zoomIn")
     }

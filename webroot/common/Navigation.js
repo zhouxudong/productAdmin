@@ -17,6 +17,8 @@ const Navigation = React.createClass({
         var urlFirstPathReg = /\/([a-zA-Z0-9]+)\/?/;
         var urlFirstPath = urlFirstPathReg.exec(pathname),
             urlFirstPath = urlFirstPath && urlFirstPath[1];
+
+        if(!urlFirstPath) urlFirstPath = "categorymgr";
         var navs = NavMap[urlFirstPath];
 
         return (

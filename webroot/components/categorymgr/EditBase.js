@@ -23,11 +23,11 @@ const EditBase = React.createClass({
         return (
             <form ref="categoryForm" className="form-horizontal">
                 <input type="hidden" defaultValue={category.id} name="id"/>
-                <input type="hidden" defaultValue={category.parent_id} name="parent_id"/>
+                <input type="hidden" ref="parent_id" defaultValue={category.parent_id} name="parent_id"/>
                 <div className="form-group">
                     <label className="control-label col-sm-2">分类名称:</label>
                     <div className="col-sm-8">
-                        <input name="name" value={category.name} onChange={this.handleInput} placeholder={category.name}  type="text" className="form-control" />
+                        <input ref="category_name" name="name" value={category.name} onChange={this.handleInput} placeholder={category.name}  type="text" className="form-control" />
                     </div>
                 </div>
                 <div className="hr-line-dashed"></div>
@@ -108,8 +108,10 @@ const EditBase = React.createClass({
         })
     },
     saveCategory(){
-        var {categoryForm} = this.refs;
+        var {categoryForm, parent_id,category_name} = this.refs;
         var params = $(categoryForm).serializeArray();
+        var pid = parent_id.value;
+        console.log(params);
 
         $.ajax({
             url: API.category_add,
@@ -117,7 +119,17 @@ const EditBase = React.createClass({
             success: function(data){
                 if(data.response_data){
                     alert("添加成功");
-                    this.props.ajaxAllCategory();
+                    var {insertId} = data.response_data;
+                    var $curTreeNode = $(".tree-root li[data-pid="+pid+"]");
+                    var $newNode = $curTreeNode.find(".newNode");
+                    var $treeNode = $newNode.children(".tree-node");
+
+                    $treeNode.removeClass("zoomIn animated").attr("data-node-id",insertId);
+                    $treeNode.find(".nodeName").text(category_name.value);
+
+                    var $newNodeChild = $newNode.children();
+                    $newNode.remove();
+                    $curTreeNode.append($newNodeChild)
                 }
             }.bind(this)
         })

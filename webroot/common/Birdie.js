@@ -511,18 +511,26 @@ const TreeNode = React.createClass({
         var $parentli = $(event.currentTarget).closest("li");
 
         Ztil.runAnim($parentli,"zoomOut", () => {
-            delCategory(id);
+            delCategory(id,$parentli);
         })
     },
     plus(event,parent_id){
-        var $parentli = $(event.currentTarget).closest("li");
-        var $treeNodes = $parentli.find(".tree-nodes");
+        var $parentTreeNode = $(event.target).closest(".tree-node");
+        var $toggle_arrow = $parentTreeNode.find(".toggle_arrow");
+
+        var $treeNodes = $parentTreeNode.next(".tree-nodes");
         if(parent_id != 0 && !parent_id) return false;
+        if($treeNodes.find(".newNode").length > 0) return false;
 
         var $newli = $("<li data-pid='"+parent_id+"'></li>").appendTo($treeNodes[0])
         var childNode = this.getChildNode({name: "子节点", status: 2},"zoomIn animated");
 
-        render(<div>
+        //添加展开节点
+        $toggle_arrow.removeClass("fa-angle-down");
+        $toggle_arrow.addClass("fa-angle-right");
+        this.props.showSubsNode(parent_id);
+
+        render(<div className="newNode">
             {childNode}
             <ol className="tree-nodes"></ol>
         </div>,$newli[0])
@@ -530,15 +538,17 @@ const TreeNode = React.createClass({
     toggleArrow(e, parent_id){
         var $arrow = $(e.target);
         if(!$arrow.hasClass("fa")) $arrow = $arrow.children();
+
+        var $nextNodes = $arrow.closest(".tree-node").next(".tree-nodes");
         if($arrow.hasClass("fa-angle-down")){   //将要展开
             $arrow.removeClass("fa-angle-down");
             $arrow.addClass("fa-angle-right");
-            this.props.showSubsNode(parent_id);
-            $arrow.closest(".tree-node").next(".tree-nodes").slideDown();
+            if($nextNodes.children().length < 1) this.props.showSubsNode(parent_id);
+            $nextNodes.slideDown();
         }else{  //将要关闭
             $arrow.removeClass("fa-angle-right");
             $arrow.addClass("fa-angle-down");
-            $arrow.closest(".tree-node").next(".tree-nodes").slideUp();
+            $nextNodes.slideUp();
         }
     },
     getChildNode(treeNode,aniStyle){
@@ -552,13 +562,13 @@ const TreeNode = React.createClass({
             )
         }
         return (
-            <div className={"tree-node tree-handle tree-node-content " + (aniStyle ? aniStyle : "")}>
+            <div data-node-id={treeNode.id} className={"tree-node tree-handle tree-node-content " + (aniStyle ? aniStyle : "")}>
                 <a onClick={e => {this.trash(e,treeNode.id)}} className="pull-right btn btn-white btn-xs"><span className="fa fa-trash"></span></a>
                 <a onClick={ e => {this.plus(e,treeNode.id)}} className="pull-right btn btn-white btn-xs"><span className="fa fa-plus"></span></a>
                 <a onClick={ e => {this.props.edit(e,treeNode.id)} } className="pull-right btn btn-white btn-xs"><span className="fa fa-edit"></span></a>
                 <a className="pull-right btn btn-white btn-xs"><span className={"fa " + (treeNode.status == 1 ? "fa-eye" : "fa-eye-slash")}></span></a>
-                <a onClick={ e => {this.toggleArrow(e,treeNode.id)} } className="btn btn-primary btn-xs"><span className="fa fa-angle-down"></span></a>
-                {treeNode.name}
+                <a onClick={ e => {this.toggleArrow(e,treeNode.id)} } className="btn btn-primary btn-xs"><span className="fa fa-angle-down toggle_arrow"></span></a>
+                <span className="nodeName">{treeNode.name}</span>
             </div>
         )
     },
@@ -572,7 +582,7 @@ const TreeNode = React.createClass({
                             subNode = this.getTreeNode(treeNode.subs);
                         }
                         return (
-                            <li key={treeNode.name}>
+                            <li data-node-id={treeNode.id} key={treeNode.name}>
                                 {this.getChildNode(treeNode)}
                                 {subNode}
                             </li>

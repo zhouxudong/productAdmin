@@ -5,8 +5,14 @@ import TopNavBar from './TopNavBar'
 import Header from './Header'
 
 const Main = React.createClass({
-    componentDidMount(){
-
+    contextTypes: {
+        router: React.PropTypes.object
+    },
+    componentWillMount(){
+        var {location} = this.props;
+        if(location.pathname == "/"){
+            this.context.router.push("/categorymgr/list");
+        }
     },
     render(){
         return (

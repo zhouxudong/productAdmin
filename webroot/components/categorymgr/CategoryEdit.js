@@ -50,7 +50,7 @@ const CategoryEdit = React.createClass({
                 </ul>
                 <div ref="tabContent" className="tab-content">
                     <div id="panel_base" className="tab-pane active">
-                        <EditBase category={category} ajaxAllCategory={this.props.ajaxAllCategory}/>
+                        <EditBase category={category} />
                     </div>
                     <div id="panel_attr" className="tab-pane">
                         <EditAttr />
