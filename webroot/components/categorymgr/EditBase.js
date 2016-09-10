@@ -113,7 +113,6 @@ const EditBase = React.createClass({
         var {categoryForm, parent_id,category_name} = this.refs;
         var params = $(categoryForm).serializeArray();
         var pid = parent_id.value;
-        console.log(params);
 
         $.ajax({
             url: API.category_add,

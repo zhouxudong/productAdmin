@@ -520,7 +520,7 @@ const TreeNode = React.createClass({
 
         var $treeNodes = $parentTreeNode.next(".tree-nodes");
         if(parent_id != 0 && !parent_id) return false;
-        if($treeNodes.find(".newNode").length > 0) return false;
+        if($treeNodes.children("li").children(".newNode").length > 0) return false;
 
         var $newli = $("<li data-pid='"+parent_id+"'></li>").appendTo($treeNodes[0])
         var childNode = this.getChildNode({name: "子节点", status: 2},"zoomIn animated");
@@ -528,7 +528,7 @@ const TreeNode = React.createClass({
         //添加展开节点
         $toggle_arrow.removeClass("fa-angle-down");
         $toggle_arrow.addClass("fa-angle-right");
-        this.props.showSubsNode(parent_id);
+        if($treeNodes.children().length < 1) this.props.showSubsNode(parent_id);
 
         render(<div className="newNode">
             {childNode}
