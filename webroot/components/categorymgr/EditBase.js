@@ -22,7 +22,7 @@ const EditBase = React.createClass({
         var {category} = this.state;
         return (
             <form ref="categoryForm" className="form-horizontal">
-                <input type="hidden" defaultValue={category.id} name="id"/>
+                <input type="hidden" ref="category_id" defaultValue={category.id} name="id"/>
                 <input type="hidden" ref="parent_id" defaultValue={category.parent_id} name="parent_id"/>
                 <div className="form-group">
                     <label className="control-label col-sm-2">分类名称:</label>
@@ -93,8 +93,10 @@ const EditBase = React.createClass({
         this.setState({category: category});
     },
     editCategory(){
-        var {categoryForm} = this.refs;
+        var {categoryForm, category_id, category_name} = this.refs;
+        var categoryid = category_id.value;
         var params = $(categoryForm).serializeArray();
+        var $curTreeNode = $(".tree-root .tree-node[data-node-id="+categoryid+"]");
 
         $.ajax({
             url: API.category_edit,
@@ -102,7 +104,7 @@ const EditBase = React.createClass({
             success: function(data){
                 if(data.response_data){
                     alert("修改成功");
-                    this.props.ajaxAllCategory();
+                    $curTreeNode.find(".nodeName").text(category_name.value);
                 }
             }.bind(this)
         })
