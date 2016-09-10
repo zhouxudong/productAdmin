@@ -9,7 +9,8 @@ const ProdList = React.createClass({
     getInitialState(){
         return {
             products: [],
-            total: 0
+            total: 1,
+            curr: 1
         }
     },
     componentDidMount(){
@@ -20,6 +21,9 @@ const ProdList = React.createClass({
             {name: "商品管理", url:"#"},
             {name: "商品列表", url: "#"}
         ]
+        var pagesNum = 10;
+        var {total, curr} = this.state;
+        var pages = (total % pagesNum == 0) ? total/pagesNum : total/pagesNum + 1;
         return (
             <div id="product_list" className="">
                 <BreadCrumb crumbs={crumbs} title="商品管理"/>
@@ -32,23 +36,38 @@ const ProdList = React.createClass({
                                     <div className="form-group col-sm-4">
                                         <label className="col-sm-3 control-label" htmlFor="product_ID">商品ID:</label>
                                         <div className="col-sm-9">
-                                            <input type="text" className="form-control" id="product_ID" placeholder="输入商品ID"/>
+                                            <input ref="product_id" type="text" className="form-control" id="product_ID" placeholder="输入商品ID"/>
                                         </div>
                                     </div>
                                     <div className="form-group col-sm-4">
                                         <label className="col-sm-3 control-label" htmlFor="product_name">商品名称:</label>
                                         <div className="col-sm-9">
-                                            <input type="text" className="form-control" id="product_name" placeholder="输入商品名称"/>
+                                            <input ref="product_name" type="text" className="form-control" id="product_name" placeholder="输入商品名称"/>
                                         </div>
                                     </div>
                                     <div className="form-group col-sm-4">
                                         <label className="col-sm-3 control-label" htmlFor="status">状态:</label>
                                         <div className="col-sm-9">
-                                            <input type="text" className="form-control" id="status"/>
+                                            <select ref="product_status" className="form-control">
+                                                <option value="-1">请选择</option>
+                                                <option value="1">上架</option>
+                                                <option value="2">下架</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="form-group col-sm-4">
+                                        <label className="col-sm-3 control-label" htmlFor="status">商品分类:</label>
+                                        <div className="col-sm-9">
+                                            <select ref="product_category" className="form-control">
+                                                <option value="-1">请选择</option>
+                                                <option value="1">刘沫12</option>
+                                                <option value="2">aaa1</option>
+                                                <option value="3">1112</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-sm-2"><button type="submit" className="btn btn-block btn-primary">搜索</button></div>
+                                <div className="col-sm-2"><button onClick={this.searchProduct} type="button" className="btn btn-block btn-primary">搜索</button></div>
                                 <div className="col-sm-2">
                                     <button onClick={() => {this.addProduct(0)}} type="button" className="btn btn-block btn-primary">添加商品</button>
                                 </div>
@@ -56,7 +75,7 @@ const ProdList = React.createClass({
                         </IBoxTool>
                     </div>
                     <div className="row">
-                        <IBoxTool title={`总共：${this.state.total}商品`}>
+                        <IBoxTool title={`总共：${total}商品`}>
                             <table className="table">
                                 <thead>
                                 <tr>
@@ -97,13 +116,27 @@ const ProdList = React.createClass({
                                 }
                                 </tbody>
                             </table>
-                            <LayPage config={{pages:10,skin: "#1ab394",curr: 8, skip:true}} />
+                            <LayPage jump={this.jump} config={{pages:pages,skin: "#1ab394",curr: curr}} />
                         </IBoxTool>
                     </div>
                 </div>
                 <div ref="add_wraper" className="wrapper wrapper-content"></div>
             </div>
         )
+    },
+    searchProduct(){
+        var {product_id, product_name, product_status, product_category} = this.refs;
+
+        this.ajaxProducts({
+            curr: 1,
+            pid: product_category.value == -1 ? "" : product_category.value,
+            keyWord: product_name.value,
+            status: product_status.value == -1 ? "" : product_status.value
+        });
+        
+    },
+    jump(curr){
+        this.ajaxProducts({curr: curr});
     },
     online(id){
         $.ajax({
@@ -127,16 +160,18 @@ const ProdList = React.createClass({
             }.bind(this)
         })
     },
-    ajaxProducts(){
+    ajaxProducts(option){
         $.ajax({
             url: API.product_list,
+            data: option,
             success: function(data){
                 if(data.response_data){
                     data = data.response_data;
                     this.setState(
                         {
                             products: data.list,
-                            total: data.total
+                            total: data.count,
+                            curr: option && option.curr || 1
                         }
                     );
                 }

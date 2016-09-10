@@ -692,11 +692,11 @@ const LayPage = React.createClass({
             }
         }
     },
-    componentDidMount(){
+    componentWillReceiveProps(nextProp){
         var newConf = Object.assign(
             {},
             this.state.config,
-            this.props.config
+            nextProp.config
         );
         this.setState({
             config: newConf
@@ -704,6 +704,7 @@ const LayPage = React.createClass({
     },
     render(){
         var {config} = this.state;
+        console.log(config);
         var view = [], dict = {};
 
         if(config.pages <= 1){

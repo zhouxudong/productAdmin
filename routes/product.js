@@ -9,15 +9,40 @@ var Z_Util = require("../bin/common.js");
 var conn = require("../bin/db/DBHelper");
 var productHelper = require("../bin/productHelper");
 
+var getProductTotal = productHelper.getProductTotal;
+var getProductList = productHelper.getProductList;
+
 //获取商品列表
 router.get("/list", (req, res, next) => {
-    var sql = `SELECT * FROM product`;
-    conn(sql, rows => {
-        var res_data = {
-            list: rows,
-            total: rows.length
+
+    var option = {
+        pid: req.param("pid") || "",
+        status: req.param("status") || "",
+        keyWord: req.param("keyWord") || "",
+        pages: req.param("pages") || 10,
+        curr: req.param("curr") || 1
+    }
+
+    Promise.all([
+        getProductTotal(option),
+        getProductList(option)
+    ]).then(function(){
+        var responseList = arguments[0];
+
+        var responseObj = {
+            count: responseList[0].count,
+            list: responseList[1].list
+        };
+
+        res.json({response_data: responseObj});
+    }).catch(function() {
+        var errObj = null;
+        for(var err of arguments){
+            if(err.status == false){
+                errObj = {error_code: 123,errObj: err};
+            }
         }
-        res.json({response_data: res_data});
+        res.json(errObj)
     })
 })
 //添加商品
