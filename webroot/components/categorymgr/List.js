@@ -49,7 +49,9 @@ const CateList = React.createClass({
                 success: function(data){
                     if(data.response_data){
                         //this.ajaxAllCategory();
-                        $parentli.remove();
+                        Ztil.runAnim($parentli,"zoomOut",function(){
+                            $parentli.remove();
+                        })
                     }
                 }.bind(this)
             })

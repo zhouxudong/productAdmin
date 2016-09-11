@@ -125,12 +125,13 @@ const EditBase = React.createClass({
                     var $newNode = $curTreeNode.find(".newNode");
                     var $treeNode = $newNode.children(".tree-node");
 
+                    $curTreeNode.removeAttr("data-pid").attr("data-node-id",insertId);
                     $treeNode.removeClass("zoomIn animated").attr("data-node-id",insertId);
                     $treeNode.find(".nodeName").text(category_name.value);
 
-                    var $newNodeChild = $newNode.children();
-                    $newNode.remove();
-                    $curTreeNode.append($newNodeChild)
+                    //var $newNodeChild = $newNode.children();
+                    $newNode.removeClass("newNode");
+                    //$curTreeNode.append($newNodeChild)
                 }
             }.bind(this)
         })

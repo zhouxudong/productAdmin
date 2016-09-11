@@ -510,14 +510,17 @@ const TreeNode = React.createClass({
         var {delCategory} = this.props;
         var $parentli = $(event.currentTarget).closest("li");
 
-        Ztil.runAnim($parentli,"zoomOut", () => {
-            delCategory(id,$parentli);
-        })
+        id = id ? id : $parentli.data("node-id");
+        delCategory(id,$parentli);
     },
     plus(event,parent_id){
+        console.log(event);
+        console.log(parent_id);
+
         var $parentTreeNode = $(event.target).closest(".tree-node");
         var $toggle_arrow = $parentTreeNode.find(".toggle_arrow");
 
+        parent_id = (parent_id == 0 || parent_id) ? parent_id : $parentTreeNode.data("node-id");
         var $treeNodes = $parentTreeNode.next(".tree-nodes");
         if(parent_id != 0 && !parent_id) return false;
         if($treeNodes.children("li").children(".newNode").length > 0) return false;
@@ -554,7 +557,7 @@ const TreeNode = React.createClass({
     getChildNode(treeNode,aniStyle){
         if(treeNode.id == 0){
             return (
-                <div className={"tree-node tree-handle tree-node tree-node-content"}>
+                <div data-node-id="0" className={"tree-node tree-handle tree-node tree-node-content"}>
                     <a onClick={e => {this.plus(e,0)}} className="pull-right btn btn-white btn-xs"><span className="fa fa-plus"></span></a>
                     <a className="btn btn-primary btn-xs"><span className="fa fa-angle-down"></span></a>
                     {treeNode.name}
