@@ -85,11 +85,12 @@ const ProdList = React.createClass({
                                 <tr>
                                     <th width="10%"><input type="checkbox"/> 全选</th>
                                     <th width="10%">产品名(cn)</th>
-                                    <th width="20%">产品名(en)</th>
-                                    <th width="20%">产品名(es)</th>
+                                    <th width="15%">产品名(en)</th>
+                                    <th width="15%">产品名(es)</th>
+                                    <th width="10%">所属分类</th>
                                     <th width="10%">缩略图</th>
                                     <th width="10%">时间</th>
-                                    <th width="30%">操作</th>
+                                    <th width="25%">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -99,6 +100,8 @@ const ProdList = React.createClass({
                                         if(product.status == 1){
                                             statusOpe = <button onClick={e => {this.offline(product.id)}} className="btn btn-primary btn-sm">下架</button>;
                                         }
+                                        var otime = new Date(product.otime);
+                                        otime = `${otime.getFullYear()}-${otime.getMonth()+1}-${otime.getDate()}`;
                                         return (
                                             <tr key={product.id}>
                                                 <td><input type="checkbox" />{product.id}</td>
@@ -107,8 +110,9 @@ const ProdList = React.createClass({
                                                 </td>
                                                 <td>{product.name_en}</td>
                                                 <td>{product.name_es}</td>
+                                                <td>{product.category_name}</td>
                                                 <td><img width="120px" src={product.thumb}/></td>
-                                                <td>{product.otime}</td>
+                                                <td>{otime}</td>
                                                 <td>
                                                     <button onClick={ e => {this.addProduct(product.id,"info")}} className="btn btn-primary btn-sm">查看</button> {" "}
                                                     <button onClick={ e => {this.addProduct(product.id,"edit")}} className="btn btn-primary btn-sm">编辑</button> {" "}

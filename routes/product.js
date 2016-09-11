@@ -47,13 +47,14 @@ router.get("/list", (req, res, next) => {
 })
 //添加商品
 router.get("/add", (req, res, next) => {
+    var now = new Date();
     var name = req.param("name"),
         name_en = req.param("name_en"),
         name_es = req.param("name_es"),
         descript_en = req.param("descript_en"),
         descript_es = req.param("descript_es"),
         pid = req.param("pid"),
-        otime = new Date().toLocaleDateString(),
+        otime = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate(),
         thumb = req.param("thumb");
     console.log(otime)
 

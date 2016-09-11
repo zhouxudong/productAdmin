@@ -36,11 +36,11 @@ var getProductList = function(option){
         pages = option.pages || 10;
 
     var searchField = "1 = 1";
-    if(pid) searchField += ` and pid=${pid}`;
-    if(status) searchField += ` and status=${status}`;
-    if(keyWord) searchField += ` and name like '%${keyWord}%'`;
-    searchField += ` limit ${(curr-1)*pages}, ${pages}`
-    var sql = `select * from product where ${searchField}`;
+    if(pid) searchField += ` and product.pid=${pid}`;
+    if(status) searchField += ` and product.status=${status}`;
+    if(keyWord) searchField += ` and product.name like '%${keyWord}%'`;
+    searchField += ` and product.pid = category.id limit ${(curr-1)*pages}, ${pages}`
+    var sql = `select product.*,category.name as category_name from product,category where ${searchField}`;
     console.log("sql : " + sql);
     return new Promise( (resolve, reject) => {
         conn(sql, rows => {
