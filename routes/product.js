@@ -55,6 +55,7 @@ router.get("/add", (req, res, next) => {
         pid = req.param("pid"),
         otime = new Date().toLocaleDateString(),
         thumb = req.param("thumb");
+    console.log(otime)
 
     var sql = `insert into product (name, name_en, name_es, descript_en, descript_es, pid, thumb, otime)
                 values ('${name}', '${name_en}', '${name_es}', '${descript_en}', '${descript_es}', '${pid}', '${thumb}', '${otime}')`;
