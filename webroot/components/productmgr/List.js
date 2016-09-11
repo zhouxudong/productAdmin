@@ -9,12 +9,14 @@ const ProdList = React.createClass({
     getInitialState(){
         return {
             products: [],
+            categorys: [],
             total: 1,
             curr: 1
         }
     },
     componentDidMount(){
         this.ajaxProducts();
+        this.ajaxCategory();
     },
     render(){
         var crumbs = [
@@ -23,7 +25,7 @@ const ProdList = React.createClass({
         ]
         var pagesNum = 10;
         var {total, curr} = this.state;
-        var pages = (total % pagesNum == 0) ? total/pagesNum : total/pagesNum + 1;
+        var pages = (total % pagesNum == 0) ? parseInt(total/pagesNum) : parseInt(total/pagesNum) + 1;
         return (
             <div id="product_list" className="">
                 <BreadCrumb crumbs={crumbs} title="商品管理"/>
@@ -49,7 +51,7 @@ const ProdList = React.createClass({
                                         <label className="col-sm-3 control-label" htmlFor="status">状态:</label>
                                         <div className="col-sm-9">
                                             <select ref="product_status" className="form-control">
-                                                <option value="-1">请选择</option>
+                                                <option value="-1">全部</option>
                                                 <option value="1">上架</option>
                                                 <option value="2">下架</option>
                                             </select>
@@ -58,11 +60,13 @@ const ProdList = React.createClass({
                                     <div className="form-group col-sm-4">
                                         <label className="col-sm-3 control-label" htmlFor="status">商品分类:</label>
                                         <div className="col-sm-9">
-                                            <select ref="product_category" className="form-control">
-                                                <option value="-1">请选择</option>
-                                                <option value="1">刘沫12</option>
-                                                <option value="2">aaa1</option>
-                                                <option value="3">1112</option>
+                                            <select ref="product_category" name="pid" className="form-control w100">
+                                                <option value="-1">全部</option>
+                                                {
+                                                    this.state.categorys.map( category => {
+                                                        return <option key={category.id} value={category.id}>{category.name}</option>
+                                                    })
+                                                }
                                             </select>
                                         </div>
                                     </div>
@@ -160,6 +164,29 @@ const ProdList = React.createClass({
             }.bind(this)
         })
     },
+    handleInput(e){
+        var name = $(e.currentTarget).attr("name"),
+            newObj = {};
+
+        newObj[name] = e.target.value;
+
+        //var product = Object.assign({},this.state.product,newObj)
+        //this.setState({product: product});
+    },
+    ajaxCategory(){
+        $.ajax({
+            url: API.category_list,
+            data: {parent_id: 0},
+            success: function(data){
+                if(data.response_data){
+                    data = data.response_data;
+                    this.setState({
+                        categorys: data.list
+                    })
+                }
+            }.bind(this)
+        })
+    },
     ajaxProducts(option){
         $.ajax({
             url: API.product_list,
@@ -168,11 +195,11 @@ const ProdList = React.createClass({
                 if(data.response_data){
                     data = data.response_data;
                     this.setState(
-                        {
+                        Object.assign(this.state,{
                             products: data.list,
                             total: data.count,
                             curr: option && option.curr || 1
-                        }
+                        })
                     );
                 }
             }.bind(this)

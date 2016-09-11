@@ -52,7 +52,7 @@ router.get("/add", (req, res, next) => {
         name_es = req.param("name_es"),
         descript_en = req.param("descript_en"),
         descript_es = req.param("descript_es"),
-        pid = req.param("category"),
+        pid = req.param("pid"),
         otime = new Date().toLocaleDateString(),
         thumb = req.param("thumb");
 
