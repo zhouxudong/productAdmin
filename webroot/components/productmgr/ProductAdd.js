@@ -1,5 +1,5 @@
 import React from 'react'
-import {BreadCrumb, IBoxTool} from '../../common/Birdie'
+import {BreadCrumb, IBoxTool, SelectGroup} from '../../common/Birdie'
 import API from '../../conf/API'
 require("../../statics/js/plugins/dropzone/dropzone");
 require("../../statics/less/product.less");
@@ -29,7 +29,7 @@ const ProductAdd = React.createClass({
         this.ajaxProduct(nextProps.id);
     },
     render(){
-        var {product} = this.state;
+        var {product,categorys} = this.state;
         var {opera} = this.props;
         return (
             <IBoxTool title="商品添加">
@@ -42,14 +42,8 @@ const ProductAdd = React.createClass({
                     <div className="hr-line-dashed"></div>
                     <div className="form-group">
                         <label className="col-sm-2 control-label">产品所属分类</label>
-                        <div className="col-sm-3">
-                            <select disabled={opera == "info" ? true : false} value={product.pid} onChange={this.handleInput} ref="category" name="pid" className="form-control w100">
-                                {
-                                    this.state.categorys.map( category => {
-                                        return <option key={category.id} value={category.id}>{category.name}</option>
-                                    })
-                                }
-                            </select>
+                        <div className="col-sm-10">
+                            <SelectGroup categorys={categorys} ajaxCategory={this.ajaxCategory} />
                         </div>
                     </div>
                     <div className="hr-line-dashed"></div>
@@ -151,15 +145,21 @@ const ProductAdd = React.createClass({
             })
         }
     },
-    ajaxCategory(){
+    ajaxCategory(pid, selIndex){
+        console.log(selIndex);
+        var {categorys} = this.state;
         $.ajax({
             url: API.category_list,
-            data: {parent_id: 0},
+            data: {parent_id: (pid || 0)},
             success: function(data){
                 if(data.response_data){
                     data = data.response_data;
+
+                    if(data.list.length == 0) categorys.splice(selIndex+1,3);
+                    else categorys.splice(selIndex+1,3,data);
+
                     this.setState({
-                        categorys: data.list
+                        categorys: categorys
                     })
                 }
             }.bind(this)
