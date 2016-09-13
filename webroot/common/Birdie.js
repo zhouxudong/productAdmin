@@ -962,8 +962,9 @@ const SelectGroup = React.createClass({
                     categorys.map( (selects,i) => {
                         var options = selects.list || [];
 
+
                         return <div className="w200 fl mr10" key={i+"_select"}>
-                            <select data-index={i} className="form-control" onChange={this.handleSelectChange}>
+                            <select name={categorys.length == (i+1) ? "pid" : ""} data-index={i} className="form-control" onChange={this.handleSelectChange}>
                                 {
                                     options.map(option => {
                                         return <option key={option.id + "_option"} value={option.id}>{option.name}</option>
