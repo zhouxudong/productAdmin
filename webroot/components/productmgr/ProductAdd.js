@@ -20,7 +20,6 @@ const ProductAdd = React.createClass({
     },
     componentDidMount(){
         var{opera} = this.props;
-        this.ajaxCategory();
         this.ajaxProduct(this.props.id);
         if(!opera)
             this.registImageUpload();
@@ -30,11 +29,12 @@ const ProductAdd = React.createClass({
     },
     render(){
         var {product,categorys} = this.state;
-        var {opera} = this.props;
+        var {opera,id} = this.props;
         return (
             <IBoxTool title="商品添加">
                 <form ref="addProductForm" className="form-horizontal" method="post" encType="multipart/form-data">
                     <input name="thumb" type="hidden" defaultValue={product.thumb} ref="imgpath" />
+                    <input name="id" type="hidden" defaultValue={id} ref="product_id" />
                     <div className="form-group">
                         <label className="col-sm-2 control-label">产品名称</label>
                         <div className="col-sm-6"><input disabled={opera == "info" ? true : false} value={product.name} onChange={this.handleInput} placeholder={product.name} name="name" type="text" className="form-control"/></div>
@@ -42,7 +42,7 @@ const ProductAdd = React.createClass({
                     <div className="hr-line-dashed"></div>
                     <div className="form-group">
                         <label className="col-sm-2 control-label">产品所属分类</label>
-                        <div className="col-sm-10">
+                        <div ref="selectGroup" className="col-sm-10">
                             <SelectGroup categorys={categorys} ajaxCategory={this.ajaxCategory} />
                         </div>
                     </div>
@@ -90,7 +90,18 @@ const ProductAdd = React.createClass({
                     <div className="form-group">
                         <div className="col-sm-4 col-sm-offset-2">
                             <button onClick={this.props.switchToList} type="button" className="btn btn-white">取消</button> {" "}
-                            <button onClick={this.saveProduct} type="button" className={opera == "info" ? "none":"btn btn-primary"}>保存</button>
+                            {
+                                opera == "info" ?
+                                    ""
+                                    :
+                                (opera == "edit" ?
+                                        <button onClick={this.updateProduct} type="button" className="btn btn-primary">确定修改</button>
+                                        :
+                                        <button onClick={this.saveProduct} type="button" className="btn btn-primary">保存</button>
+                                )
+
+                            }
+
                         </div>
                     </div>
                 </form>
@@ -138,15 +149,34 @@ const ProductAdd = React.createClass({
                     id: id,
                 },
                 success: function(data){
-                    this.setState({
-                        product: data.response_data
-                    })
+                    if(data.response_data){
+                        data = data.response_data;
+                        this.setState({
+                            product: data
+                        })
+                        this.ajaxCategoryParents(data.pid);
+                    }
                 }.bind(this)
             })
+        }else{
+            this.ajaxCategory();
         }
     },
+    ajaxCategoryParents(id){
+        $.ajax({
+            url: API.category_parents,
+            data: {id: id},
+            success: function(data){
+                if(data.response_data){
+                    this.setState({
+                        categorys: data.response_data
+                    })
+                }
+            }.bind(this)
+        })
+    },
     ajaxCategory(pid, selIndex){
-        console.log(selIndex);
+
         var {categorys} = this.state;
         $.ajax({
             url: API.category_list,
@@ -165,10 +195,39 @@ const ProductAdd = React.createClass({
             }.bind(this)
         })
     },
-    saveProduct(){
-        var {addProductForm} = this.refs;
+    updateProduct(){
+        var {addProductForm, selectGroup} = this.refs;
         var {ajaxProducts, switchToList} = this.props;
         var params = $(addProductForm).serializeArray();
+
+        var $pidEl = $(selectGroup).find("[name=pid]");
+
+        if($pidEl.val() == "-1"){
+            alert("请选择所属分类");
+            return false;
+        }
+        $.ajax({
+            url: API.product_edit,
+            data: params,
+            success: function(data){
+                if(data.response_data){
+                    alert("修改成功");
+                    switchToList(ajaxProducts);
+                }
+            }.bind(this)
+        })
+    },
+    saveProduct(){
+        var {addProductForm, selectGroup} = this.refs;
+        var {ajaxProducts, switchToList} = this.props;
+        var params = $(addProductForm).serializeArray();
+
+        var $pidEl = $(selectGroup).find("[name=pid]");
+
+        if($pidEl.val() == "-1"){
+            alert("请选择所属分类");
+            return false;
+        }
         $.ajax({
             url: API.product_add,
             data: params,

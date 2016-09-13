@@ -56,10 +56,29 @@ router.get("/add", (req, res, next) => {
         pid = req.param("pid"),
         otime = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate(),
         thumb = req.param("thumb");
-    console.log(otime)
 
     var sql = `insert into product (name, name_en, name_es, descript_en, descript_es, pid, thumb, otime)
                 values ('${name}', '${name_en}', '${name_es}', '${descript_en}', '${descript_es}', '${pid}', '${thumb}', '${otime}')`;
+    conn(sql, rows => {
+        res.json({response_data:{status: "OK"}});
+    })
+})
+//跟新商品
+router.get("/edit", (req, res, next) => {
+    var now = new Date();
+    var id = req.param("id"),
+        name = req.param("name"),
+        name_en = req.param("name_en"),
+        name_es = req.param("name_es"),
+        descript_en = req.param("descript_en"),
+        descript_es = req.param("descript_es"),
+        pid = req.param("pid"),
+        otime = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate(),
+        thumb = req.param("thumb");
+
+    var sql = `update product set name="${name}",name_en="${name_en}",name_es="${name_es}",descript_en="${descript_en}",
+                descript_es="${descript_es}",pid="${pid}",otime="${otime}",thumb="${thumb}" where id = ${id}`
+
     conn(sql, rows => {
         res.json({response_data:{status: "OK"}});
     })

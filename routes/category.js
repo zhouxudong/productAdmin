@@ -1,4 +1,3 @@
-"use strict";
 var express = require('express');
 var router = express.Router();
 
@@ -63,6 +62,27 @@ router.get("/delete", (req, res, next) => {
     conn(sql, rows => {
         res.json({response_data: "ok"});
     })
+})
+
+router.get("/parents", (req, res, next) => {
+    var id = req.param("id");
+    var categorys = [];
+
+    (function(id,categorys,res){
+        var thisFn = arguments.callee;
+        var sql = `select * from category where parent_id = (select parent_id from category where id = ${id})`;
+        conn(sql, rows => {
+            categorys.push({list: rows,curr:id});
+            var parentID = rows[0].parent_id;
+            if(parentID == 0){
+                res.json({response_data: categorys.reverse()})
+            }else {
+                thisFn(parentID,categorys,res);
+            }
+        })
+
+    })(id,categorys,res)
+
 })
 
 module.exports = router;

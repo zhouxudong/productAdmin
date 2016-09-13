@@ -962,9 +962,9 @@ const SelectGroup = React.createClass({
                     categorys.map( (selects,i) => {
                         var options = selects.list || [];
 
-
                         return <div className="w200 fl mr10" key={i+"_select"}>
-                            <select name={categorys.length == (i+1) ? "pid" : ""} data-index={i} className="form-control" onChange={this.handleSelectChange}>
+                            <select defaultValue={selects.curr || -1} name={categorys.length == (i+1) ? "pid" : ""} data-index={i} className="form-control" onChange={this.handleSelectChange}>
+                                <option value="-1">请选择</option>
                                 {
                                     options.map(option => {
                                         return <option key={option.id + "_option"} value={option.id}>{option.name}</option>
