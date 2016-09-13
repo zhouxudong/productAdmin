@@ -952,6 +952,39 @@ const AreaPicker = React.createClass({
         })
     }
 })
+const SelectGroup = React.createClass({
+
+    render(){
+        var {categorys} = this.props;
+        return (
+            <div>
+                {
+                    categorys.map( (selects,i) => {
+                        var options = selects.list || [];
+
+                        return <div className="w200 fl mr10" key={i+"_select"}>
+                            <select data-index={i} className="form-control" onChange={this.handleSelectChange}>
+                                {
+                                    options.map(option => {
+                                        return <option key={option.id + "_option"} value={option.id}>{option.name}</option>
+                                    })
+                                }
+                            </select>
+                        </div>
+                    })
+                }
+            </div>
+        )
+    },
+    handleSelectChange(e){
+        var {ajaxCategory} = this.props;
+        var $element = $(e.target);
+        var optionID = $element.val();
+        var selIndex = $element.data("index");
+
+        ajaxCategory(optionID,selIndex);
+    }
+})
 
 export {
     BreadCrumb,
@@ -961,5 +994,6 @@ export {
     ColorPicker,
     AutoComplete,
     ICheck,
-    AreaPicker
+    AreaPicker,
+    SelectGroup
 }
