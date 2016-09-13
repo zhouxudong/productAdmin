@@ -116,6 +116,7 @@ const ProdList = React.createClass({
                                                 <td>
                                                     <button onClick={ e => {this.addProduct(product.id,"info")}} className="btn btn-primary btn-sm">查看</button> {" "}
                                                     <button onClick={ e => {this.addProduct(product.id,"edit")}} className="btn btn-primary btn-sm">编辑</button> {" "}
+                                                    <button onClick={ e => {this.delProduct(product.id)}} className="btn btn-primary btn-sm">删除</button> {" "}
                                                     {statusOpe}
                                                 </td>
                                             </tr>
@@ -217,6 +218,18 @@ const ProdList = React.createClass({
         Ztil.runAnim(list_wraper,"fadeInRight");
 
         if(typeof callback === "function") callback();
+    },
+    delProduct(id){
+        $.ajax({
+            url: API.product_del,
+            data: {id: id},
+            success: function(data){
+                if(data.response_data){
+                    this.ajaxProducts({curr: 1})
+                }
+            }.bind(this)
+
+        })
     },
     addProduct(id,opera){
         var {list_wraper, add_wraper} = this.refs;

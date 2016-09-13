@@ -64,6 +64,14 @@ router.get("/add", (req, res, next) => {
         res.json({response_data:{status: "OK"}});
     })
 })
+//删除商品
+router.get("/delete", (req, res, next) => {
+    var id = req.param("id");
+    var sql = `delete from product where id = ${id}`;
+    conn(sql, rows => {
+        res.json({response_data:{status: "OK"}});
+    })
+})
 //商品详情
 router.get("/info", (req, res, next) => {
     var id = req.param("id");
