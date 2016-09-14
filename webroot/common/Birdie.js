@@ -585,7 +585,7 @@ const TreeNode = React.createClass({
                             subNode = this.getTreeNode(treeNode.subs);
                         }
                         return (
-                            <li data-node-id={treeNode.id} key={treeNode.name}>
+                            <li data-node-id={treeNode.id} key={treeNode.id}>
                                 {this.getChildNode(treeNode)}
                                 {subNode}
                             </li>
