@@ -20,31 +20,31 @@ const ProdList = React.createClass({
     },
     render(){
         var crumbs = [
-            {name: "商品管理", url:"#"},
-            {name: "商品列表", url: "#"}
+            {name: "产品管理", url:"#"},
+            {name: "产品列表", url: "#"}
         ]
         var pagesNum = 10;
         var {total, curr} = this.state;
         var pages = (total % pagesNum == 0) ? parseInt(total/pagesNum) : parseInt(total/pagesNum) + 1;
         return (
             <div id="product_list" className="">
-                <BreadCrumb crumbs={crumbs} title="商品管理"/>
+                <BreadCrumb crumbs={crumbs} title="产品管理"/>
                 <div ref="list_wraper" className="wrapper wrapper-content animated fadeInRight">
 
                     <div className="row">
-                        <IBoxTool title="商品搜索">
+                        <IBoxTool title="产品搜索">
                             <form className="form-horizontal" onSubmit={()=>{return false}}>
                                 <div className="row">
                                     <div className="form-group col-sm-4">
-                                        <label className="col-sm-3 control-label" htmlFor="product_ID">商品ID:</label>
+                                        <label className="col-sm-3 control-label" htmlFor="product_ID">产品ID:</label>
                                         <div className="col-sm-9">
-                                            <input ref="product_id" type="text" className="form-control" id="product_ID" placeholder="输入商品ID"/>
+                                            <input ref="product_id" type="text" className="form-control" id="product_ID" placeholder="输入产品ID"/>
                                         </div>
                                     </div>
                                     <div className="form-group col-sm-4">
-                                        <label className="col-sm-3 control-label" htmlFor="product_name">商品名称:</label>
+                                        <label className="col-sm-3 control-label" htmlFor="product_name">产品名称:</label>
                                         <div className="col-sm-9">
-                                            <input ref="product_name" type="text" className="form-control" id="product_name" placeholder="输入商品名称"/>
+                                            <input ref="product_name" type="text" className="form-control" id="product_name" placeholder="输入产品名称"/>
                                         </div>
                                     </div>
                                     <div className="form-group col-sm-4">
@@ -58,7 +58,7 @@ const ProdList = React.createClass({
                                         </div>
                                     </div>
                                     <div className="form-group col-sm-4">
-                                        <label className="col-sm-3 control-label" htmlFor="status">商品分类:</label>
+                                        <label className="col-sm-3 control-label" htmlFor="status">产品分类:</label>
                                         <div className="col-sm-9">
                                             <select ref="product_category" name="pid" className="form-control w100">
                                                 <option value="-1">全部</option>

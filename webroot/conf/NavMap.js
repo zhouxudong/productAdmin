@@ -178,28 +178,28 @@ var NavMap = {
     //},
     productmgr: {
         id: "productmgr",
-        title: "商品管理",
+        title: "产品管理",
         url: "/productmgr/list",
         level: "nav-first-level",
         icon: "fa fa-th-large",
         subs: [
             {
                 id: "list",
-                title: "商品列表",
+                title: "产品列表",
                 url: "/productmgr/list",
                 level: "nav-second-level",
                 icon: "fa fa-th-large"
             },
             {
                 id: "specif",
-                title: "商品规格",
+                title: "产品规格",
                 url: "/productmgr/specif",
                 level: "nav-second-level",
                 icon: "fa fa-th-large"
             },
             {
                 id: "attr",
-                title: "商品属性",
+                title: "产品属性",
                 url: "/productmgr/attr",
                 level: "nav-second-level",
                 icon: "fa fa-th-large"

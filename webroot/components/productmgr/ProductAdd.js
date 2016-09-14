@@ -31,9 +31,9 @@ const ProductAdd = React.createClass({
         var {product,categorys} = this.state;
         var {opera,id} = this.props;
         return (
-            <IBoxTool title="商品添加">
+            <IBoxTool title="产品添加">
                 <form ref="addProductForm" className="form-horizontal" method="post" encType="multipart/form-data">
-                    <input name="thumb" type="hidden" defaultValue={product.thumb} ref="imgpath" />
+                    <input name="thumb" type="hidden" defaultValue={product.thumb || "/uploads/images/EWwjc2338434_8_14.jpg"} ref="imgpath" />
                     <input name="id" type="hidden" defaultValue={id} ref="product_id" />
                     <div className="form-group">
                         <label className="col-sm-2 control-label">产品名称</label>
