@@ -73,13 +73,13 @@ const ProdList = React.createClass({
                                 </div>
                                 <div className="col-sm-2"><button onClick={this.searchProduct} type="button" className="btn btn-block btn-primary">搜索</button></div>
                                 <div className="col-sm-2">
-                                    <button onClick={() => {this.addProduct(0)}} type="button" className="btn btn-block btn-primary">添加商品</button>
+                                    <button onClick={() => {this.addProduct(0)}} type="button" className="btn btn-block btn-primary">添加产品</button>
                                 </div>
                             </form>
                         </IBoxTool>
                     </div>
                     <div className="row">
-                        <IBoxTool title={`总共：${total}商品`}>
+                        <IBoxTool title={`总共：${total}产品`}>
                             <table className="table">
                                 <thead>
                                 <tr>
