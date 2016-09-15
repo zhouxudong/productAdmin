@@ -687,7 +687,7 @@ const LayPage = React.createClass({
             config: {
                 pages: 1,
                 curr: 1,
-                groups: 5,
+                groups: 10,
                 first: "首页",
                 last: "末页",
                 prev: "上一页",
