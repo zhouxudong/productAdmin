@@ -54,11 +54,12 @@ router.get("/add", (req, res, next) => {
         descript_en = req.param("descript_en"),
         descript_es = req.param("descript_es"),
         pid = req.param("pid"),
+        bigThumb = req.param("bigThumb"),
         otime = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate(),
         thumb = req.param("thumb");
 
-    var sql = `insert into product (name, name_en, name_es, descript_en, descript_es, pid, thumb, otime)
-                values ('${name}', '${name_en}', '${name_es}', '${descript_en}', '${descript_es}', '${pid}', '${thumb}', '${otime}')`;
+    var sql = `insert into product (name, name_en, name_es, descript_en, descript_es, pid, thumb, bigThumb, otime)
+                values ('${name}', '${name_en}', '${name_es}', '${descript_en}', '${descript_es}', '${pid}', '${thumb}', '${bigThumb}', '${otime}')`;
     conn(sql, rows => {
         res.json({response_data:{status: "OK"}});
     })
@@ -73,11 +74,12 @@ router.get("/edit", (req, res, next) => {
         descript_en = req.param("descript_en"),
         descript_es = req.param("descript_es"),
         pid = req.param("pid"),
+        bigThumb = req.param("bigThumb"),
         otime = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate(),
         thumb = req.param("thumb");
 
     var sql = `update product set name="${name}",name_en="${name_en}",name_es="${name_es}",descript_en="${descript_en}",
-                descript_es="${descript_es}",pid="${pid}",otime="${otime}",thumb="${thumb}" where id = ${id}`
+                descript_es="${descript_es}",pid="${pid}",otime="${otime}",thumb="${thumb}",bigThumb="${bigThumb}" where id = ${id}`
 
     conn(sql, rows => {
         res.json({response_data:{status: "OK"}});
