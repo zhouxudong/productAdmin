@@ -34,6 +34,7 @@ const ProductAdd = React.createClass({
             <IBoxTool title="产品添加">
                 <form ref="addProductForm" className="form-horizontal" method="post" encType="multipart/form-data">
                     <input name="thumb" type="hidden" defaultValue={(product.thumb || "/uploads/images/EWwjc2338434_8_14.jpg")} ref="imgpath" />
+                    <input name="bigThumb" type="hidden" defaultValue={(product.bitThumb || "/uploads/images/EWwjc2338434_8_14.jpg")} ref="bigimgpath" />
                     <input name="id" type="hidden" defaultValue={id} ref="product_id" />
                     <div className="form-group">
                         <label className="col-sm-2 control-label">产品名称</label>
@@ -76,14 +77,26 @@ const ProductAdd = React.createClass({
                     </div>
                     <div className="hr-line-dashed"></div>
                     <div className="form-group">
-                        <label className="col-lg-2 control-label">产品主图</label>
+                        <label className="col-lg-2 control-label">产品缩略图</label>
                         {
                             product.thumb ? (<div className="col-lg-6">
-                                                <img width="400" src={product.thumb} />
-                                                <button type="button" onClick={this.showDropzone} className={opera == "info" ? "none":"btn btn-primary"}>修改</button>
+                                                <img width="200" src={product.thumb} />
+                                                <button type="button" onClick={e =>{this.showDropzone("small")}} className={opera == "info" ? "none":"btn btn-primary"}>修改</button>
                                                 <div ref="imgupload" className="col-md-12 dropzone none"></div>
                                             </div>)
                                 : <div ref="imgupload" className="col-md-6 dropzone"></div>
+                        }
+                    </div>
+                    <div className="hr-line-dashed"></div>
+                    <div className="form-group">
+                        <label className="col-lg-2 control-label">产品大图</label>
+                        {
+                            product.bigThumb ? (<div className="col-lg-6">
+                                <img width="400" src={product.bigThumb} />
+                                <button type="button" onClick={e => {this.showDropzone("big")}} className={opera == "info" ? "none":"btn btn-primary"}>修改</button>
+                                <div ref="bigimgupload" className="col-md-12 dropzone none"></div>
+                            </div>)
+                                : <div ref="bigimgupload" className="col-md-6 dropzone"></div>
                         }
                     </div>
                     <div className="hr-line-dashed"></div>
@@ -108,8 +121,8 @@ const ProductAdd = React.createClass({
             </IBoxTool>
         )
     },
-    registImageUpload(){
-        var {imgupload,imgpath} = this.refs;
+    registImageUpload(imgupload,imgpath){
+
         $(imgupload).dropzone({
             url: "/api/product/imgupload",
             maxFiles: 10,
@@ -127,10 +140,17 @@ const ProductAdd = React.createClass({
             }
         });
     },
-    showDropzone(){
-        var {imgupload} = this.refs;
-        $(imgupload).show();
-        this.registImageUpload();
+    showDropzone(type){
+        var {imgupload, imgpath, bigimgupload, bigimgpath} = this.refs;
+        if(type == "small"){
+            var {imgupload} = this.refs;
+            $(imgupload).show();
+            this.registImageUpload(imgupload,imgpath);
+        }else{
+            var {bigimgupload} = this.refs;
+            $(bigimgupload).show();
+            this.registImageUpload(bigimgupload, bigimgpath);
+        }
     },
     handleInput(e){
         var name = $(e.currentTarget).attr("name"),
