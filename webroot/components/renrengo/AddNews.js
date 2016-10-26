@@ -3,9 +3,16 @@ import {BreadCrumb, IBoxTool, TreeNode} from '../../common/Birdie'
 
 const AddNews = React.createClass({
 
+    ue: null,
     componentDidMount(){
         var {container} = this.refs;
-        var ue = UE.getEditor(container);
+        this.ue = UE.getEditor(container);
+
+    },
+    addNews(){
+        var {addNewForm} = this.refs;
+        var postdata = $(addNewForm).serializeArray()
+
     },
     render(){
         var crumbs = [
@@ -39,7 +46,7 @@ const AddNews = React.createClass({
                             </div>
                             <div className="form-group">
                                 <div className="col-sm-4">
-                                    <button className="btn btn-primary">确定添加</button>
+                                    <button type="button" onClick={this.addNews} className="btn btn-primary">确定添加</button>
                                 </div>
                             </div>
                         </form>
