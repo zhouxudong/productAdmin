@@ -5,6 +5,8 @@ import Specif from "../components/productmgr/Specif"
 import Attribute from "../components/productmgr/Attribute"
 import CateList from "../components/categorymgr/List"
 import StockList from '../components/stockmgr/List'
+import AddNews from "../components/renrengo/AddNews"
+import NewsManager from "../components/renrengo/NewsManager"
 
 const ProductManagerRoute = {
     path: "productmgr",
@@ -34,6 +36,22 @@ const CategoryManagerRoute = {
         }
     ]
 }
+
+const NewsManagerRoute = {
+    path: "newsmgr",
+    component: APPManager,
+    childRoutes: [
+        {
+            path: "add",
+            component: AddNews
+        },
+        {
+            path: "list",
+            component: NewsManager
+        }
+    ]
+}
+
 const StockManagerRoute = {
     path: "stockmgr",
     component: APPManager,
@@ -45,4 +63,4 @@ const StockManagerRoute = {
     ]
 }
 
-export { ProductManagerRoute, CategoryManagerRoute, StockManagerRoute}
+export { ProductManagerRoute, CategoryManagerRoute, StockManagerRoute, NewsManagerRoute}

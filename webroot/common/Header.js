@@ -10,9 +10,11 @@ const Header = React.createClass({
         var {pathname} = this.props.location,
             liArr = [];
 
+        var index = 0;
         for(var key in NavMap){
+            index++;
             var nav = NavMap[key];
-            liArr.push(<li key={nav.id} className={pathname.startsWith("/" + key) ? "active" : ""}>
+            liArr.push(<li key={index} className={pathname.startsWith("/" + key) ? "active" : ""}>
                         <Link to={nav.url}><i className={nav.icon}></i><span className="nav-label">{nav.title}</span></Link>
                     </li>)
         }
@@ -20,7 +22,7 @@ const Header = React.createClass({
         return (
             <header id="header" className="animated fadeInDown">
                 <div className="navbar-header">
-                    <a href="#" className="navbar-brand">云仓管理</a>
+                    <a href="#" className="navbar-brand">后台管理</a>
                 </div>
                 <div>
                     <ul className="nav navbar-nav">

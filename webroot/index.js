@@ -5,7 +5,7 @@ import { Router, Route, browserHistory } from 'react-router'
 import Main from './common/Main'
 //import AppManagerRoute from './routes/Appmanager'
 //import RenRenGORoute from './routes/RenRenGO'
-import {ProductManagerRoute, CategoryManagerRoute, StockManagerRoute }from './routes/ProductManager'
+import {ProductManagerRoute, CategoryManagerRoute, StockManagerRoute, NewsManagerRoute }from './routes/ProductManager'
 
 const routes = {
     path: "/",
@@ -15,7 +15,8 @@ const routes = {
         //RenRenGORoute,
         ProductManagerRoute,
         CategoryManagerRoute,
-        StockManagerRoute
+        StockManagerRoute,
+        NewsManagerRoute
     ]
 }
 render(<Router history={browserHistory} routes={routes}/>,document.getElementById("root"));

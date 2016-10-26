@@ -3,6 +3,10 @@ import {BreadCrumb, IBoxTool, TreeNode} from '../../common/Birdie'
 
 const AddNews = React.createClass({
 
+    componentDidMount(){
+        var {container} = this.refs;
+        var ue = UE.getEditor(container);
+    },
     render(){
         var crumbs = [
             {name: "新闻管理", url:"#"},
@@ -30,7 +34,7 @@ const AddNews = React.createClass({
                             <div className="form-group">
                                 <label className="control-label col-sm-2">新闻内容：</label>
                                 <div className="col-sm-8">
-                                    <textarea name="content" style={{width: "100%", height: "180px"}}></textarea>
+                                    <textarea ref="container" name="content" style={{width: "100%", height: "180px"}}>hello world</textarea>
                                 </div>
                             </div>
                             <div className="form-group">

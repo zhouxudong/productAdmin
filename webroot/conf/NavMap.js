@@ -222,6 +222,22 @@ var NavMap = {
             }
         ]
     },
+    newsmgr: {
+        title: "新闻管理",
+        url: "/newsmgr/list",
+        level: "nav-first-level",
+        icon: "fa fa-sitemap",
+        subs: [
+            {
+                title: "新闻添加",
+                url: "/newsmgr/add"
+            },
+            {
+                title: "新闻列表",
+                url: "/newsmgr/list"
+            }
+        ]
+    },
     stockmgr: {
         id: "stock",
         title: "仓库管理",
