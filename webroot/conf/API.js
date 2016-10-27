@@ -11,7 +11,11 @@ const API = {
     category_add: "/api/category/add",
     category_edit: "/api/category/edit",
     category_del: "/api/category/delete",
-    category_parents: "/api/category/parents"
+    category_parents: "/api/category/parents",
+    news_add: "/api/news/add",
+    news_list: "/api/news/list",
+    news_info: "/api/news/info",
+    new_edit: "/api/news/edit"
 }
 
 export default API;
