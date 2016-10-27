@@ -224,7 +224,7 @@ var NavMap = {
     },
     newsmgr: {
         title: "新闻管理",
-        url: "/newsmgr/list",
+        url: "/newsmgr/add",
         level: "nav-first-level",
         icon: "fa fa-sitemap",
         subs: [

@@ -41,7 +41,7 @@ const AddNews = React.createClass({
                             <div className="form-group">
                                 <label className="control-label col-sm-2">新闻内容：</label>
                                 <div className="col-sm-8">
-                                    <textarea ref="container" name="content" style={{width: "100%", height: "180px"}}>hello world</textarea>
+                                    <textarea defaultValue="新闻内容" ref="container" name="content" style={{width: "100%", height: "180px"}}></textarea>
                                 </div>
                             </div>
                             <div className="form-group">
