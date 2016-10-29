@@ -11,7 +11,7 @@ const NewsManager = React.createClass({
             newsArr: []
         }
     },
-    componentDidMount(){
+    getNewsList(){
         $.ajax({
             url: API.news_list,
             success: function(data){
@@ -25,6 +25,9 @@ const NewsManager = React.createClass({
                 }
             }.bind(this)
         })
+    },
+    componentDidMount(){
+        this.getNewsList();
     },
     render(){
         var {newsArr} = this.state;
@@ -61,8 +64,8 @@ const NewsManager = React.createClass({
                                                     <td>{moment(news.ctime).format("YYYY-MM-DD HH:mm")}</td>
                                                     <td>
                                                         <Link to={"/newsmgr/add?id=" + news.id}>编辑</Link> | {" "}
-                                                        <a href="#">发布</a> | {" "}
-                                                        <a href="#">下架</a>
+                                                        <a onClick={this.handleOn.bind(this,news.id)} href="#">发布</a> | {" "}
+                                                        <a onClick={this.handleOff.bind(this,news.id)} href="#">下架</a>
                                                     </td>
                                                 </tr>
                                             )
@@ -76,7 +79,40 @@ const NewsManager = React.createClass({
                 </div>
             </div>
         )
+    },
+    handleOn(id){
+        $.ajax({
+            url: API.new_on,
+            data: {
+                id: id
+            },
+            success: function(data){
+                if(!data.error_code){
+                    alert("已上架");
+                    this.getNewsList();
+                }else{
+                    alert(data.error_msg);
+                }
+            }.bind(this)
+        })
+    },
+    handleOff(id){
+        $.ajax({
+            url: API.new_off,
+            data: {
+                id: id
+            },
+            success: function(data){
+                if(!data.error_code){
+                    alert("已下架");
+                    this.getNewsList();
+                }else{
+                    alert(data.error_msg);
+                }
+            }.bind(this)
+        })
     }
+
 })
 
 export default NewsManager;

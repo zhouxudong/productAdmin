@@ -15,7 +15,9 @@ const API = {
     news_add: "/api/news/add",
     news_list: "/api/news/list",
     news_info: "/api/news/info",
-    new_edit: "/api/news/edit"
+    new_edit: "/api/news/edit",
+    new_on: "/api/news/on",
+    new_off: "/api/news/off"
 }
 
 export default API;

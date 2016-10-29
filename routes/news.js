@@ -45,7 +45,23 @@ router.get("/edit", (req, res, next) => {
     conn(sql, rows => {
         res.json({response_data: "ok"});
     })
+})
+/*上架*/
+router.get("/on", (req, res, next) => {
+    var id = req.param("id");
+    var sql = `update news_info set status = 1 where id = ${id}`;
 
+    conn(sql, rows => {
+        res.json({response_data: "ok"});
+    })
+})
+/*上架*/
+router.get("/off", (req, res, next) => {
+    var id = req.param("id");
+    var sql = `update news_info set status = 2 where id = ${id}`;
 
+    conn(sql, rows => {
+        res.json({response_data: "ok"});
+    })
 })
 module.exports = router;
